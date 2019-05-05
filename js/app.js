@@ -26,6 +26,7 @@ const cardImages = [
     'fa-bicycle', 'fa-bicycle',
     'fa-bomb','fa-bomb'
 ];
+let ActiveCards = [];
 
 
 function generateGame() {
@@ -61,22 +62,27 @@ function generateGame() {
     for (let index in shuffle(cardImages)) {
         subElement1 = document.createElement('li');
         subElement2 = document.createElement('i');
-        subElement1.className = 'card open show';
+        subElement1.className = 'card';
         subElement2.className = `fa ${cardImages[index]}`;
         subElement1.appendChild(subElement2);
         element.appendChild(subElement1);
     }
-
     div.appendChild(element);
-
-    element.addEventListener('click', function reaction(event){
-        console.log('clicking just happened')
-    });
+      
+    //element.addEventListener('click', onClick);
     document.body.appendChild(fragment);
- 
-    
+
+    addClickListenerNow();
 };
 
+function addClickListenerNow() {
+    let allcards = document.querySelectorAll('.card');
+    allcards.forEach(function (card) {
+        card.addEventListener('click', function (e) {
+            card.classList.add('open', 'show');
+        });
+    });
+};
 
 
 // Shuffle function from http://stackoverflow.com/a/2450976
