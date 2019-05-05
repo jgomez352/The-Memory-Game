@@ -14,7 +14,6 @@
  * Setting timer to allow HTML to load first before calling on the funtion that generates the game
  */
 setTimeout(generateGame, 0);
-let moves = 3
 const fragment = document.createDocumentFragment();
 const cardImages = [
     'fa-diamond', 'fa-diamond',
@@ -27,6 +26,7 @@ const cardImages = [
     'fa-bomb','fa-bomb'
 ];
 let ActiveCards = [];
+let movesCount = 0;
 function generateGame() {
     const div = document.createElement('div');
     /*The html below is the header information*/
@@ -40,9 +40,16 @@ function generateGame() {
                 <li><i class="fa fa-star"></i></li>
                 <li><i class="fa fa-star"></i></li>
                 <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
             </ul>
 
-            <span class="moves">${moves}</span> Moves
+            <span class="moves">0</span> Moves
 
             <div class="restart">
                 <i class="fa fa-repeat"></i>
@@ -71,16 +78,18 @@ function generateGame() {
     document.body.appendChild(fragment);
 
     addClickListenerNow();
-};
+ };
 
 
 function addClickListenerNow() {
-    let allcards = document.querySelectorAll('.card');
+    const allcards = document.querySelectorAll('.card');
     let card1;
     let card2;
+    const moves = document.querySelector('.moves')
+    
     allcards.forEach(function (card) {
         card.addEventListener('click', function (e) {
-            
+
             if (ActiveCards.length >= 2) {
                 //Keep
                 card1 = ActiveCards[0];
@@ -90,8 +99,6 @@ function addClickListenerNow() {
                     card1.classList.add('match')
                     card2.classList.add('match')
                 };
-                console.log(card1);
-                console.log(card2);
                 //hide
                 ActiveCards.forEach(function (ActiveCard) {
                     ActiveCard.classList.remove('open', 'show');
@@ -101,6 +108,9 @@ function addClickListenerNow() {
             else {
                 card.classList.add('open', 'show');
                 ActiveCards.push(card);
+                movesCount++;
+                moves.textContent= movesCount;
+                
             }
         });
     });
