@@ -27,8 +27,6 @@ const cardImages = [
     'fa-bomb','fa-bomb'
 ];
 let ActiveCards = [];
-
-
 function generateGame() {
     const div = document.createElement('div');
     /*The html below is the header information*/
@@ -75,14 +73,27 @@ function generateGame() {
     addClickListenerNow();
 };
 
+
 function addClickListenerNow() {
     let allcards = document.querySelectorAll('.card');
     allcards.forEach(function (card) {
         card.addEventListener('click', function (e) {
-            card.classList.add('open', 'show');
+            if (ActiveCards.length >= 2) {
+                //hide
+                ActiveCards.forEach(function (ActiveCard) {
+                    ActiveCard.classList.remove('open', 'show');
+                });
+                ActiveCards.length = 0;
+            }
+            else {
+                card.classList.add('open', 'show');
+                ActiveCards.push(card);
+            }
         });
     });
 };
+
+
 
 
 // Shuffle function from http://stackoverflow.com/a/2450976
