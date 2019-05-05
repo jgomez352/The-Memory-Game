@@ -10,6 +10,65 @@
  *   - add each card's HTML to the page
  */
 
+/*
+ * Setting timer to allow HTML to load first before calling on the funtion that generates the game
+ */
+setTimeout(generateGame, 0);
+let moves = 3
+const fragment = document.createDocumentFragment();
+const cardImages = [
+    'fa-diamond', 'fa-diamond',
+    'fa-paper-plane-o', 'fa-paper-plane-o',
+    'fa-anchor', 'fa-anchor',
+    'fa-bolt', 'fa-bolt',
+    'fa-cube', 'fa-cube',
+    'fa-leaf', 'fa-leaf',
+    'fa-bicycle', 'fa-bicycle',
+    'fa-bomb','fa-bomb'
+];
+
+
+function generateGame() {
+    const div = document.createElement('div');
+    /*The html below is the header information*/
+    let htmlText = `
+        <header>
+        <h1> Matching Game</h1>
+        </header>
+
+        <section class="score-panel">
+            <ul class="stars">
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+                <li><i class="fa fa-star"></i></li>
+            </ul>
+
+            <span class="moves">${moves}</span> Moves
+
+            <div class="restart">
+                <i class="fa fa-repeat"></i>
+            </div>
+        </section>`;
+    div.className = 'container';
+    div.innerHTML = htmlText;
+    fragment.appendChild(div);
+    /*this element variable will be recycled to generate all other element needed */
+    let element = document.createElement('ul');
+    let subElement1 = document.createElement('li');
+    let subElement2 = document.createElement('i');
+    element.className = 'deck';
+    subElement1.className = 'card open show';
+    subElement2.className = 'fa fa-diamond';
+    subElement1.appendChild(subElement2);
+    element.appendChild(subElement1);
+    div.appendChild(element);
+
+    
+    document.body.appendChild(fragment);
+};
+
+
+
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
