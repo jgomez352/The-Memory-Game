@@ -76,9 +76,22 @@ function generateGame() {
 
 function addClickListenerNow() {
     let allcards = document.querySelectorAll('.card');
+    let card1;
+    let card2;
     allcards.forEach(function (card) {
         card.addEventListener('click', function (e) {
+            
             if (ActiveCards.length >= 2) {
+                //Keep
+                card1 = ActiveCards[0];
+                card2 = ActiveCards[1];
+
+                if (card1.firstElementChild.className == card2.firstElementChild.className) {
+                    card1.classList.add('match')
+                    card2.classList.add('match')
+                };
+                console.log(card1);
+                console.log(card2);
                 //hide
                 ActiveCards.forEach(function (ActiveCard) {
                     ActiveCard.classList.remove('open', 'show');
@@ -91,6 +104,7 @@ function addClickListenerNow() {
             }
         });
     });
+    
 };
 
 
