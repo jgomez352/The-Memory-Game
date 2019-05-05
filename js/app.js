@@ -110,9 +110,18 @@ function addClickListenerNow() {
                 card.classList.add('open', 'show');
                 ActiveCards.push(card);
                 if (matchedCards < 8) {
-                    movesCount++;
-                    moves.textContent = movesCount;
-                    removeStars(movesCount);
+                    
+                    switch (ActiveCards[0]) {
+                        case ActiveCards[1]:
+                            console.log('clicked the same card');
+                            ActiveCards.splice(1, 1);
+                           
+                            break;
+                        default:
+                            movesCount++;
+                            moves.textContent = movesCount;
+                            removeStars(movesCount);
+                    };
                 }
                 
             }
@@ -130,7 +139,7 @@ function removeStars(movesCount) {
         
 
     };
-    console.log(`moves = ${movesCount} and stars drop point ${MaxStars}`)
+    //console.log(`moves = ${movesCount} and stars drop point ${MaxStars}`)
 };
 
 
