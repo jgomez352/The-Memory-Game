@@ -85,6 +85,7 @@ function addClickListenerNow() {
     const allcards = document.querySelectorAll('.card');
     let card1;
     let card2;
+    let matchedCards = 0;
     const moves = document.querySelector('.moves')
     
     allcards.forEach(function (card) {
@@ -98,6 +99,7 @@ function addClickListenerNow() {
                 if (card1.firstElementChild.className == card2.firstElementChild.className) {
                     card1.classList.add('match')
                     card2.classList.add('match')
+                    matchedCards++;
                 };
                 //hide
                 ActiveCards.forEach(function (ActiveCard) {
@@ -108,8 +110,10 @@ function addClickListenerNow() {
             else {
                 card.classList.add('open', 'show');
                 ActiveCards.push(card);
-                movesCount++;
-                moves.textContent= movesCount;
+                if (matchedCards < 8) {
+                    movesCount++;
+                    moves.textContent = movesCount;
+                }
                 
             }
         });
