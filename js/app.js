@@ -54,16 +54,22 @@ function generateGame() {
     fragment.appendChild(div);
     /*this element variable will be recycled to generate all other element needed */
     let element = document.createElement('ul');
-    let subElement1 = document.createElement('li');
-    let subElement2 = document.createElement('i');
+    let subElement1
+    let subElement2
     element.className = 'deck';
-    subElement1.className = 'card open show';
-    subElement2.className = 'fa fa-diamond';
-    subElement1.appendChild(subElement2);
-    element.appendChild(subElement1);
-    div.appendChild(element);
 
-    
+    for (let index in shuffle(cardImages)) {
+        subElement1 = document.createElement('li');
+        subElement2 = document.createElement('i');
+        console.log(cardImages[index]);
+        subElement1.className = 'card open show';
+        subElement2.className = `fa ${cardImages[index]}`;
+        subElement1.appendChild(subElement2);
+        element.appendChild(subElement1);
+    }
+
+
+    div.appendChild(element);
     document.body.appendChild(fragment);
 };
 
