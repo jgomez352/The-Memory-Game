@@ -27,6 +27,7 @@ const cardImages = [
 ];
 let ActiveCards = [];
 let movesCount = 0;
+let MaxStars = 22 //22 moves is the starting point for losing stars
 function generateGame() {
     const div = document.createElement('div');
     /*The html below is the header information*/
@@ -79,8 +80,6 @@ function generateGame() {
 
     addClickListenerNow();
  };
-
-
 function addClickListenerNow() {
     const allcards = document.querySelectorAll('.card');
     let card1;
@@ -113,12 +112,25 @@ function addClickListenerNow() {
                 if (matchedCards < 8) {
                     movesCount++;
                     moves.textContent = movesCount;
+                    removeStars(movesCount);
                 }
                 
             }
         });
     });
     
+};
+function removeStars(movesCount) {
+    const Star = document.querySelector('.fa-star');
+    
+    if (movesCount == MaxStars) {
+        Star.parentNode.removeChild(Star);
+        MaxStars += 4;
+
+        
+
+    };
+    console.log(`moves = ${movesCount} and stars drop point ${MaxStars}`)
 };
 
 
