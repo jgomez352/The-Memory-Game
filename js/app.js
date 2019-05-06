@@ -28,14 +28,15 @@ const cardImages = [
 let ActiveCards = [];
 let movesCount = 0;
 let MaxStars = 22 //22 moves is the starting point for losing stars
+const Timer = new PlayTimer();
 function generateGame() {
     const div = document.createElement('div');
     /*The html below is the header information*/
     let htmlText = `
         <header>
         <h1> Matching Game</h1>
+        <div id="timerClock">00 : 00 . 000</div>
         </header>
-
         <section class="score-panel">
             <ul class="stars">
                 <li><i class="fa fa-star"></i></li>
@@ -49,9 +50,7 @@ function generateGame() {
                 <li><i class="fa fa-star"></i></li>
                 <li><i class="fa fa-star"></i></li>
             </ul>
-
             <span class="moves">0</span> Moves
-
             <div class="restart">
                 <i class="fa fa-repeat"></i>
             </div>
@@ -110,17 +109,17 @@ function addClickListenerNow() {
                 card.classList.add('open', 'show');
                 ActiveCards.push(card);
                 if (matchedCards < 8) {
-                    
                     switch (ActiveCards[0]) {
+                        //Ignore clicking the same card
                         case ActiveCards[1]:
                             console.log('clicked the same card');
                             ActiveCards.splice(1, 1);
-                           
                             break;
                         default:
                             movesCount++;
                             moves.textContent = movesCount;
                             removeStars(movesCount);
+                            Timer.start();
                     };
                 }
                 
@@ -142,8 +141,64 @@ function removeStars(movesCount) {
     //console.log(`moves = ${movesCount} and stars drop point ${MaxStars}`)
 };
 
+// The timer functionality is stored here.  An oject needs to be made with these functions for the timer to work
+function PlayTimer() {
+
+    let time = 0;
+    let interval;
+    let offset;
+
+    function update() {
+        time += delta();
+        let formattedTime = timerFormatter(time);
+
+        document.querySelector('#timerClock').textContent = formattedTime;
+        console.log(formattedTime);
+    };
+    function delta() {
+        let now = Date.now();
+        let timeLapsed = now - offset;
+        offset = now;
+        return timeLapsed;
+    };
+    function timerFormatter(timeInMilliSeconds) {
+        let time = new Date(timeInMilliSeconds);
+        let minutes = time.getMinutes().toString();
+        let seconds = time.getSeconds().toString();
+        let milliseconds = time.getMilliseconds().toString();
+
+        if (minutes.length < 2) {
+            minutes = `0${minutes}`;
+        };
+        if (seconds.length < 2) {
+            seconds = `0${seconds}`;
+        };
+        while (milliseconds.length < 3) {
+            milliseconds = `0${milliseconds}`;
+        };
 
 
+        return `${minutes} : ${seconds} . ${milliseconds}`;
+    };
+    this.isRunning = false;
+    this.start = function () {
+        if (!this.isRunning) {
+            interval = setInterval(update, 10);
+            offset = Date.now();
+            this.isRunning = true;
+        }
+    };
+    this.stop = function () {
+        if (this.isRunning) {
+            clearInterval(interval);
+            interval = null;
+            this.isRunning = false;
+        }
+    };
+    this.reset = function () {
+        time = 0;
+    };
+};
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
