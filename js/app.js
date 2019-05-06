@@ -108,12 +108,14 @@ function addClickListenerNow() {
         card.addEventListener('click', function (e) {
 
             let cardNotFlipped = false;
-            Timer.start();
+
+            
 
             if (card.className == 'card') {
                 ActiveCards.push(card);
             } else { console.log('clicked an invalid card');}
             if (matchedCards < 8) {
+                Timer.start();
                 switch (ActiveCards[0]) {
                     //Ignore clicking the same card
                     case ActiveCards[1]:
