@@ -27,8 +27,9 @@ const cardImages = [
 ];
 let ActiveCards = [];
 let movesCount = 0;
-let MaxStars = 22 //22 moves is the starting point for losing stars
+let MaxStars = 12 //12 moves is the starting point for losing stars
 const Timer = new PlayTimer();
+let matchedCards = 0;
 function generateGame() {
     const div = document.createElement('div');
     /*The html below is the header information*/
@@ -78,54 +79,123 @@ function generateGame() {
     document.body.appendChild(fragment);
 
     addClickListenerNow();
- };
+};
+
+function cardsMatching(card1, card2) {
+    setTimeout(function cardsMatching() {
+        if (card1.firstElementChild.className == card2.firstElementChild.className) {
+            card1.classList.add('match')
+            card2.classList.add('match')
+            matchedCards++;
+            if (matchedCards == 8) {
+                Timer.stop();
+            };
+        } else {
+            ActiveCards.forEach(function (ActiveCard) {
+                ActiveCard.classList.remove('open', 'show');
+            });}
+        ActiveCards.length = 0;
+    }, 500);
+}
 function addClickListenerNow() {
     const allcards = document.querySelectorAll('.card');
     let card1;
     let card2;
-    let matchedCards = 0;
+    
     const moves = document.querySelector('.moves')
     
     allcards.forEach(function (card) {
         card.addEventListener('click', function (e) {
 
-            if (ActiveCards.length >= 2) {
-                //Keep
-                card1 = ActiveCards[0];
-                card2 = ActiveCards[1];
+            let cardNotFlipped = false;
+            Timer.start();
 
-                if (card1.firstElementChild.className == card2.firstElementChild.className) {
-                    card1.classList.add('match')
-                    card2.classList.add('match')
-                    matchedCards++;
-                };
-                //hide
-                ActiveCards.forEach(function (ActiveCard) {
-                    ActiveCard.classList.remove('open', 'show');
-                });
-                ActiveCards.length = 0;
-            }
-            else {
-                card.classList.add('open', 'show');
+            if (card.className == 'card') {
                 ActiveCards.push(card);
-                if (matchedCards < 8) {
-                    switch (ActiveCards[0]) {
-                        //Ignore clicking the same card
-                        case ActiveCards[1]:
-                            console.log('clicked the same card');
-                            ActiveCards.splice(1, 1);
-                            break;
-                        default:
-                            movesCount++;
-                            moves.textContent = movesCount;
-                            removeStars(movesCount);
-                            Timer.start();
-                    };
-                }
-                
+            } else { console.log('clicked an invalid card');}
+            if (matchedCards < 8) {
+                switch (ActiveCards[0]) {
+                    //Ignore clicking the same card
+                    case ActiveCards[1]:
+                        console.log('clicked an invalid card');
+                        ActiveCards.splice(1, 1);
+                        break;
+                    default:
+                        if (ActiveCards[1] != null) {
+                            console.log('second card was not null')
+                                movesCount++;
+                                moves.textContent = movesCount;
+                                removeStars(movesCount);
+                        }
+                        if (ActiveCards[0].className == 'card') {
+                            cardNotFlipped = true;
+                            if (cardNotFlipped) {
+                                card.classList.add('open', 'show');
+                                console.log('flipped card')
+                            }
+                        }
+                        if (ActiveCards.length >= 2) {
+                            if (ActiveCards[1].className == 'card') {
+                                cardNotFlipped = true;
+                                if (cardNotFlipped) {
+                                    card.classList.add('open', 'show');
+                                    card1 = ActiveCards[0];
+                                    card2 = ActiveCards[1];
+                                    cardsMatching(card1, card2);
+                                }
+                            }
+                        }
+                };
             }
+
+        
+
+            //if (ActiveCards.length >= 2) {
+            //    //Keep
+            //    card1 = ActiveCards[0];
+            //    card2 = ActiveCards[1];
+
+               
+            
+            //    if (card1.firstElementChild.className == card2.firstElementChild.className) {
+            //        card1.classList.add('match')
+            //        card2.classList.add('match')
+            //        matchedCards++;
+            //        if (matchedCards == 8) {
+            //            Timer.stop();
+            //        };
+            //    };
+            //    //hide
+            //    ActiveCards.forEach(function (ActiveCard) {
+            //        ActiveCard.classList.remove('open', 'show');
+            //    });
+            //    ActiveCards.length = 0;
+            //}
+            //else {
+            //    card.classList.add('open', 'show');
+            //    ActiveCards.push(card);
+            //    //setTimeout(cardsMatching(card1, card2), 0);
+            //    if (matchedCards < 8) {
+            //        switch (ActiveCards[0]) {
+            //            //Ignore clicking the same card
+            //            case ActiveCards[1]:
+            //                console.log('clicked the same card');
+            //                ActiveCards.splice(1, 1);
+            //                break;
+            //            default:
+            //                movesCount++;
+            //                moves.textContent = movesCount;
+            //                removeStars(movesCount);
+            //                Timer.start();
+            //        };
+            //    } 
+                
+            //}
         });
     });
+    document.querySelector('.restart').addEventListener('click', function (e) {
+        console.log('clicked restart');
+    })
     
 };
 function removeStars(movesCount) {
@@ -153,7 +223,7 @@ function PlayTimer() {
         let formattedTime = timerFormatter(time);
 
         document.querySelector('#timerClock').textContent = formattedTime;
-        console.log(formattedTime);
+        //console.log(formattedTime);
     };
     function delta() {
         let now = Date.now();
