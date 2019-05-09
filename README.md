@@ -11,6 +11,7 @@ The objective of the game is to match-up all cards with as many stars leftover a
 ##Rule
 1. The timer starts as soon as one card is turnedover.
 2. Every card paring counts as a move.
+3. Points formula. (Number of Stars * 20000) / Total amount of milliseconds.
 
 ###Code Notes
 Two key events were added to the code to help the game feel more smooth.
