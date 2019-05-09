@@ -186,7 +186,6 @@ function resetGame() {
     const modal = document.querySelector('#WinModal');
     if (modal.style.display == "block") {
         $('#WinModal').modal('toggle');
-        console.log('hello');
     }
     Timer.stop();
     Timer.reset();
