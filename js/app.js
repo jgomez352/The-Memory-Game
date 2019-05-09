@@ -25,6 +25,7 @@ let MaxStars = 12; //12 moves is the starting point for losing stars
 let dificulty = 2; //dificulty is a ment to be an easy to find setting.  Once the original 12 moves are exeeded, than this number helps determine when the next star drops
 const Timer = new PlayTimer();
 let matchedCards = 0;
+let TimeForPoints;
 
 /*
  * This function generates most aspects of the game
@@ -180,6 +181,12 @@ function resetGame() {
     ActiveCards.length = 0;
     game.parentNode.removeChild(game);
     setTimeout(generateGame, 0);
+    const modal = document.querySelector('#WinModal');
+    if (modal.style.display == "block") {
+        
+        $('#WinModal').modal('toggle');
+        console.log('hello');
+    }
    
 }
 /* The timer functionality is stored here.
@@ -196,6 +203,7 @@ function PlayTimer() {
         let formattedTime = FormatterForTime(TotalTimeLapsed);
 
         document.querySelector('#timerClock').textContent = formattedTime;
+        TimeForPoints = TotalTimeLapsed;
         //console.log(formattedTime);
     };
     function ChangeInTime() {
@@ -241,18 +249,21 @@ function PlayTimer() {
     };
 };
 function winner() {
-    let FinalScore = document.querySelector('.stars');
+    let FinalStars = document.querySelector('.stars');
     let modalItem = document.querySelector('.modal-body');
     let FinalTime = document.querySelector('#timerClock').textContent;
-        modalItem.innerHTML = `
+    let PointsEarned = (FinalStars.childElementCount * 20000) / TimeForPoints; //This formala helps points be readable
+
+
+    modalItem.innerHTML = `
 <h5>Score:</h5>
-${FinalScore.outerHTML}
-${FinalTime}`;
+${FinalStars.outerHTML}
+${FinalTime}
+<p>Points:  </p>${PointsEarned}`;
     modalItem.classList.add('score-panel');
-    $('#WinModal').modal('show');
+    $('#WinModal').modal('toggle');
 
 };
-
 /* Shuffle function from http://stackoverflow.com/a/2450976
  * Code for Shuffle provided by Udacity
  */
