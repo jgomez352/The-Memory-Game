@@ -1,4 +1,3 @@
-
 /*
  * Hello and welcome to the game.
  * The game is loaded from a Document Fragment that is called on by the first set timer on this document
@@ -7,7 +6,7 @@ setTimeout(generateGame, 0);
 const fragment = document.createDocumentFragment();
 /*
  * Card Images array holds all images used
- */ 
+ */
 const cardImages = [
     'fa-diamond', 'fa-diamond',
     'fa-paper-plane-o', 'fa-paper-plane-o',
@@ -16,7 +15,7 @@ const cardImages = [
     'fa-cube', 'fa-cube',
     'fa-leaf', 'fa-leaf',
     'fa-bicycle', 'fa-bicycle',
-    'fa-bomb','fa-bomb'
+    'fa-bomb', 'fa-bomb'
 ];
 
 let ActiveCards = [];
@@ -29,7 +28,7 @@ let TimeForPoints;
 
 /*
  * This function generates most aspects of the game
- */ 
+ */
 function generateGame() {
     const div = document.createElement('div');
     /*The html below is the header information*/
@@ -93,7 +92,7 @@ function generateGame() {
         element.appendChild(subElement1);
     }
     div.appendChild(element);
-      
+
     document.body.appendChild(fragment);
 
     addClickListenerNow();
@@ -103,13 +102,10 @@ function addClickListenerNow() {
     let card1;
     let card2;
     const moves = document.querySelector('.moves')
-    
+
     allcards.forEach(function (card) {
         card.addEventListener('click', function (e) {
-
             let cardNotFlipped = false;
-
-            
 
             if (card.className == 'card') {
                 ActiveCards.push(card);
@@ -125,9 +121,9 @@ function addClickListenerNow() {
                     default:
                         if (ActiveCards[1] != null) {
                             //console.log('second card was not null')
-                                movesCount++;
-                                moves.textContent = movesCount;
-                                removeStars(movesCount);
+                            movesCount++;
+                            moves.textContent = movesCount;
+                            removeStars(movesCount);
                         }
                         if (ActiveCards[0].className == 'card') {
                             cardNotFlipped = true;
@@ -149,17 +145,15 @@ function addClickListenerNow() {
                         }
                 };
             }
-
         });
     });
     document.querySelector('.restart').addEventListener('click', function (e) {
         resetGame();
         //console.log('clicked restart');
     })
-    
 };
 /*
- *Card Matching function was seperated on its own to help with troubleshooting 
+ *Card Matching function was seperated on its own to help with troubleshooting
  */
 function cardsMatching(card1, card2) {
     setTimeout(function cardsMatching() {
@@ -181,15 +175,11 @@ function cardsMatching(card1, card2) {
 }
 function removeStars(movesCount) {
     const Star = document.querySelector('.fa-star');
-    
+
     if (movesCount == MaxStars) {
         Star.parentNode.removeChild(Star);
         MaxStars += dificulty;
-
-        
-
     };
-   
 };
 function resetGame() {
     let game = document.querySelector('.container');
@@ -205,15 +195,11 @@ function resetGame() {
     ActiveCards.length = 0;
     game.parentNode.removeChild(game);
     setTimeout(generateGame, 0);
-   
-
-   
 }
 /* The timer functionality is stored here.
  * An oject needs to be made with this functions for the timer to work.
 */
 function PlayTimer() {
-
     let TotalTimeLapsed = 0;
     let intervalTimer;
     let startTime;
@@ -274,7 +260,6 @@ function winner() {
     let FinalTime = document.querySelector('#timerClock').textContent;
     let PointsEarned = (FinalStars.childElementCount * 20000) / TimeForPoints; //This formala helps points be readable
 
-
     modalItem.innerHTML = `
 <h5>Score:</h5>
 ${FinalStars.outerHTML}
@@ -282,7 +267,6 @@ ${FinalTime}
 <p>Points:  </p>${PointsEarned}`;
     modalItem.classList.add('score-panel');
     $('#WinModal').modal('toggle');
-
 };
 /* Shuffle function from http://stackoverflow.com/a/2450976
  * Code for Shuffle provided by Udacity
