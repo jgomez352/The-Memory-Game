@@ -55,7 +55,26 @@ function generateGame() {
             <div class="restart">
                 <i class="fa fa-repeat"></i>
             </div>
-        </section>`;
+        </section>
+    <!-- Modal -->
+    <div class="modal fade" id="WinModal" tabindex="-1" role="dialog" aria-labelledby="ModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="ModalLongTitle">Congratulatins!!</h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button onclick="resetGame()" class="btn btn-primary" >Restart</button>
+                </div>
+            </div>
+        </div>
+    </div>`;
     div.className = 'container';
     div.innerHTML = htmlText;
     fragment.appendChild(div);
@@ -174,6 +193,11 @@ function removeStars(movesCount) {
 };
 function resetGame() {
     let game = document.querySelector('.container');
+    const modal = document.querySelector('#WinModal');
+    if (modal.style.display == "block") {
+        $('#WinModal').modal('toggle');
+        console.log('hello');
+    }
     Timer.stop();
     Timer.reset();
     movesCount = 0;
@@ -181,12 +205,8 @@ function resetGame() {
     ActiveCards.length = 0;
     game.parentNode.removeChild(game);
     setTimeout(generateGame, 0);
-    const modal = document.querySelector('#WinModal');
-    if (modal.style.display == "block") {
-        
-        $('#WinModal').modal('toggle');
-        console.log('hello');
-    }
+   
+
    
 }
 /* The timer functionality is stored here.
